@@ -1,13 +1,21 @@
 import RPi.GPIO as gpio
 from time import sleep
 
-
-class Diod:
-    def __init__(self, port):
+class Pin:
+    def __init__(self, port, is_out=True):
         # print(port)
         self.port = port
         self.is_on = False
-        gpio.setup(port, gpio.OUT)
+        if is_out:
+            gpio.setup(port, gpio.OUT)
+        else:
+            gpio.setup(port, gpio.IN)
+
+
+class Diod(Pin):
+    def __init__(self, port):
+        super().__init__(port)
+        self.is_on = False
 
     def on(self):
         gpio.output(self.port, 1)
@@ -16,6 +24,18 @@ class Diod:
     def off(self):
         gpio.output(self.port, 0)
         self.is_on = False
+
+
+def init_pins(ports, class_of=Pin):
+    pins = []
+    for i in range(len(ports)):
+        # exec(f"diod{i} = Diod({ports[i - 1]})")
+        pins.append(class_of(ports[i - 1]))
+    return pins
+
+
+def init_diods(ports):
+    return init_pins(ports, class_of=Diod)
 
 
 def binary_to_leds(diods, binary):

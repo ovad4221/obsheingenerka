@@ -1,18 +1,14 @@
 import RPi.GPIO as gpio
 from time import sleep
 from oop import *
+from constants import *
 from random import randint
 
 gpio.setmode(gpio.BCM)
 
-ports_dac = [26, 19, 13, 6, 5, 11, 9, 10]
-ports_leds = [21, 20, 16, 12, 7, 8, 25, 24]
-diods_dac = []
-diods_leds = []
-for i in range(1, 9):
-    # exec(f"diod{i} = Diod({ports[i - 1]})")
-    diods_dac.append(Diod(ports_dac[i - 1]))
-    diods_leds.append(Diod(ports_leds[i - 1]))
+
+diods_dac = init_diods(ports_dac)
+diods_leds = init_diods(ports_leds)
 
 
 for i in range(2):
