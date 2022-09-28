@@ -1,11 +1,7 @@
-import RPi.GPIO as gpio
 from time import sleep
 from oop import *
 from constants import *
 from random import randint
-
-gpio.setmode(gpio.BCM)
-
 
 diods_dac = init_diods(ports_dac)
 diods_leds = init_diods(ports_leds)

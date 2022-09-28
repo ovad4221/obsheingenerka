@@ -1,6 +1,8 @@
 import RPi.GPIO as gpio
 from time import sleep
 
+gpio.setmode(gpio.BCM)
+
 
 class Pin:
     def __init__(self, port, is_out=True):
@@ -15,7 +17,7 @@ class Pin:
     def is_power(self):
         if self.is_out:
             return 'pin init as out'
-        if gpio.input(self.port):
+        if not gpio.input(self.port):
             # if power is on
             return True
         else:
@@ -23,7 +25,7 @@ class Pin:
 
 
 class Diod(Pin):
-    def __init__(self, port):
+    def __init__(self, port, is_out=True):
         super().__init__(port)
         self.is_on = False
 
