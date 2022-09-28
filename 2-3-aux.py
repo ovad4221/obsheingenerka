@@ -15,6 +15,6 @@ while True:
             binary += '0'
         else:
             binary += '1'
-    binary = "10101010"
+    # binary = "10101010"
     binary_to_leds(diods_dac, binary)
     sleep(time_sleep)
