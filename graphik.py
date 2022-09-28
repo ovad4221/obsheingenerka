@@ -1,9 +1,12 @@
 import pandas as pd
-import matplotlib as np
+import matplotlib.pyplot as plt
 
 # ggg
-df = pd.read_csv('lab2_plata/values.csv')
+df = pd.read_csv('values.csv', quotechar=';')
+print(df.head())
 
 plt.figure()
-plt.plot([0, 1, 0.5])
+plt.ylabel('voltage')
+plt.xlabel('digit')
+plt.plot(df['n'], df['v'])
 plt.show()
