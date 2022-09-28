@@ -1,15 +1,25 @@
 import RPi.GPIO as gpio
 from time import sleep
 
+
 class Pin:
     def __init__(self, port, is_out=True):
         # print(port)
         self.port = port
-        self.is_on = False
+        self.is_out = is_out
         if is_out:
             gpio.setup(port, gpio.OUT)
         else:
             gpio.setup(port, gpio.IN)
+
+    def is_power(self):
+        if self.is_out:
+            return 'pin init as out'
+        if gpio.input(self.port):
+            # if power is on
+            return True
+        else:
+            return False
 
 
 class Diod(Pin):
@@ -20,17 +30,17 @@ class Diod(Pin):
     def on(self):
         gpio.output(self.port, 1)
         self.is_on = True
-    
+
     def off(self):
         gpio.output(self.port, 0)
         self.is_on = False
 
 
-def init_pins(ports, class_of=Pin):
+def init_pins(ports, class_of=Pin, is_out=True):
     pins = []
     for i in range(len(ports)):
         # exec(f"diod{i} = Diod({ports[i - 1]})")
-        pins.append(class_of(ports[i - 1]))
+        pins.append(class_of(ports[i - 1], is_out))
     return pins
 
 
