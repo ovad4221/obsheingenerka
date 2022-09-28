@@ -40,7 +40,7 @@ def init_pins(ports, class_of=Pin, is_out=True):
     pins = []
     for i in range(len(ports)):
         # exec(f"diod{i} = Diod({ports[i - 1]})")
-        pins.append(class_of(ports[i - 1], is_out))
+        pins.append(class_of(ports[i - 1], is_out=is_out))
     return pins
 
 
