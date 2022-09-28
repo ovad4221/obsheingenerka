@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib as np
 
+# ggg
 df = pd.read_csv('lab2_plata/values.csv')
 
 plt.figure()
