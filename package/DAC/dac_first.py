@@ -10,7 +10,7 @@ try:
             if n == 'q':
                 break
             n = bin(int(n))[2:].zfill(8)
-            binary_to_leds(dac, n)
+            binary_to_leds(dac, n, report=True)
         except ValueError:
             print("n must be a digit or 'q'")
 
