@@ -26,8 +26,18 @@ class Pin_Out(Pin):
     def __init__(self, port):
         super().__init__(port)
         gpio.setup(port, gpio.OUT)
+        self.is_on = False
 
-    def volt_perc(self, perc=1, report=False):
+    def on(self):
+        gpio.output(self.port, 1)
+        self.is_on = True
+
+    def off(self):
+        gpio.output(self.port, 0)
+        self.is_on = False
+
+    #false reliase
+    def shim_perc(self, perc=1, report=False):
         if perc < 0:
             perc = 0
             print("voltage percentage must be > 0 and < 1, taked 0%")
@@ -38,9 +48,6 @@ class Pin_Out(Pin):
         if report:
             volts = 3.3 * perc
             print(f"To {self.port} port filed {3.3 * perc}V")
-
-    def shim_perc(self):
-        pass
 
 
 def init_pins(ports, is_out=True):
@@ -58,9 +65,9 @@ def binary_to_leds(diods, binary, lights=1):
     if 0 <= int(binary, 2) <= 255:
         for i in range(len(binary)):
             if binary[i] == '0':
-                diods[i].volt_perc(perc=0)
+                diods[i].off()
             else:
-                diods[i].volt_perc(perc=lights)
+                diods[i].on()
         return True
     else:
         print('Incorrect int')
@@ -69,13 +76,13 @@ def binary_to_leds(diods, binary, lights=1):
 
 # simple running
 def run_zm(diods, step, light=1):
-    diods[0].volt_perc(perc=light)
+    diods[0].off()
     sleep(step)
     for i in range(1, 8):
-        diods[i].volt_perc(perc=light)
-        diods[i - 1].volt_perc(perc=0)
+        diods[i].on()
+        diods[i - 1].off()
         sleep(step)
-    diods[-1].volt_perc(perc=0)
+    diods[-1].on()
 
 
 def all_off():
