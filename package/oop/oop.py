@@ -1,5 +1,6 @@
 import RPi.GPIO as gpio
 from time import sleep
+from package.constants import *
 
 gpio.setmode(gpio.BCM)
 
@@ -36,7 +37,7 @@ class Pin_Out(Pin):
         gpio.output(self.port, 0)
         self.is_on = False
 
-    #false reliase
+    # false reliase
     def shim_perc(self, perc=1, report=False):
         if perc < 0:
             perc = 0
@@ -88,5 +89,9 @@ def run_zm(diods, step, light=1):
     diods[-1].on()
 
 
-def all_off():
-    gpio.cleanup()
+def all_off(how='all'):
+    if how == 'all':
+        gpio.cleanup()
+    elif how == 'ld_pins':
+        for pin in ports_dac + ports_leds:
+            pin.off()
