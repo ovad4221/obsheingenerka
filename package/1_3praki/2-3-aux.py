@@ -1,6 +1,5 @@
-from time import sleep
-from oop.oop import *
-from constants import ports_dac, ports_aux
+from package.oop.oop import *
+from package.constants import ports_dac, ports_aux
 
 
 diods_dac = init_pins(ports_dac)

@@ -1,6 +1,5 @@
-from time import sleep
-from oop.oop  import *
-from constants import *
+from package.oop.oop import *
+from package.constants import *
 from random import randint
 
 diods_dac = init_pins(ports_dac)
