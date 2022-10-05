@@ -61,8 +61,11 @@ def init_pins(ports, is_out=True):
     return pins
 
 
-def binary_to_leds(diods, binary, lights=1):
+def binary_to_leds(diods, binary, lights=1, report=False):
     if 0 <= int(binary, 2) <= 255:
+        if report:
+            print(f"To leds field {int(binary, 2) / 256 * 3.3}V")
+
         for i in range(len(binary)):
             if binary[i] == '0':
                 diods[i].off()
