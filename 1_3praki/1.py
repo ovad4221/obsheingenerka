@@ -1,10 +1,10 @@
 from time import sleep
-from oop import *
+from oop.oop  import *
 from constants import *
 from random import randint
 
-diods_dac = init_diods(ports_dac)
-diods_leds = init_diods(ports_leds)
+diods_dac = init_pins(ports_dac)
+diods_leds = init_pins(ports_leds)
 
 
 for i in range(2):
@@ -29,5 +29,4 @@ while True:
     binary_old = binary
     
 
-all_off(diods_dac)
-all_off(diods_leds)
+all_off()

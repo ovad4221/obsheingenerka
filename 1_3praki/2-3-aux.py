@@ -1,9 +1,9 @@
 from time import sleep
-from oop import *
+from oop.oop import *
 from constants import ports_dac, ports_aux
 
 
-diods_dac = init_diods(ports_dac)
+diods_dac = init_pins(ports_dac)
 aux_pins = init_pins(ports_aux, is_out=False)
 
 time_sleep = 0.3
