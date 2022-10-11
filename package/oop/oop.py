@@ -11,9 +11,10 @@ class Pin:
 
 
 class Pin_In(Pin):
-    def __init__(self, port):
+    def __init__(self, port, report=False):
         super().__init__(port)
         gpio.setup(port, gpio.IN)
+        self.report = report
 
     def is_power(self):
         if not gpio.input(self.port):
@@ -24,41 +25,54 @@ class Pin_In(Pin):
 
 
 class Pin_Out(Pin):
-    def __init__(self, port):
+    def __init__(self, port, start_freq=1000, report=False):
         super().__init__(port)
         gpio.setup(port, gpio.OUT)
         self.is_on = False
+        self.pwm = gpio.PWM(port, start_freq)
+        self.report = report
 
     def on(self):
         gpio.output(self.port, 1)
         self.is_on = True
+        if self.report:
+            print(f"Pin {self.port} is on")
 
     def off(self):
         gpio.output(self.port, 0)
         self.is_on = False
+        if self.report:
+            print(f"Pin {self.port} is off")
 
-    # false reliase
-    def shim_perc(self, perc=1, report=False):
-        if perc < 0:
-            perc = 0
-            print("voltage percentage must be > 0 and < 1, taked 0%")
-        elif perc > 1:
-            perc = 1
-            print("voltage percentage must be > 0 and < 1, taked 100%")
-        gpio.output(self.port, bin(int(255 * perc))[2:].zfill(8))
-        if report:
-            volts = 3.3 * perc
-            print(f"To {self.port} port filed {3.3 * perc}V")
+    def start_pwm(self, dc):
+        self.pwm.start(dc)
+        if self.report:
+            print(f"PWM in port {self.port} is started")
+
+    def stop_pwm(self):
+        self.pwm.stop()
+        if self.report:
+            print(f"PWM in port {self.port} is stopped")
+
+    def change_dc(self, new_dc):
+        self.pwm.ChangeDutyCycle(new_dc)
+        if self.report:
+            print(f"PWM duty cycle in port {self.port} is changed to {new_dc}")
+
+    def change_freq(self, new_freq):
+        self.pwm.ChangeFrequency(new_freq)
+        if self.report:
+            print(f"PWM frequency in port {self.port} is changed to {new_freq} Hz")
 
 
-def init_pins(ports, is_out=True):
+def init_pins(ports, is_out=True, report=False):
     pins = []
     if is_out:
         class_of = Pin_Out
     else:
         class_of = Pin_In
     for i in range(len(ports)):
-        pins.append(class_of(ports[i]))
+        pins.append(class_of(ports[i], report=report))
     return pins
 
 
@@ -95,3 +109,5 @@ def all_off(how='all'):
     elif how == 'ld_pins':
         for pin in ports_dac + ports_leds:
             pin.off()
+    else:
+        print("What do you want to set off?")
