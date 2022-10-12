@@ -108,7 +108,7 @@ def all_off(how='all', pins=None):
         gpio.cleanup()
     elif how == 'ld_pins':
         if pins:
-            for pin in ports_dac + ports_leds:
+            for pin in pins:
                 pin.off()
         else:
             print("Can't off. Pass a list of Pins to the function, please.")
