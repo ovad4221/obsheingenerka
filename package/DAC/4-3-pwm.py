@@ -3,7 +3,7 @@ from package.constants import *
 
 dac = init_pins(ports_dac)
 leds = init_pins(ports_leds)
-all_off(how='ld_pins')
+all_off(how='ld_pins', pins=dac + leds)
 dc = int(input()) % 100
 for i in range(len(leds)):
     leds[i].pwm.start(100 - dc)

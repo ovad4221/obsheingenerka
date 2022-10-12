@@ -3,7 +3,7 @@ from package.constants import *
 from time import sleep
 
 dac = init_pins(ports_dac)
-all_off(how='ld_pins')
+all_off(how='ld_pins', pins=dac)
 
 flag = True
 n = 0

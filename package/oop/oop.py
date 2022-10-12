@@ -103,11 +103,14 @@ def run_zm(diods, step, light=1):
     diods[-1].on()
 
 
-def all_off(how='all'):
+def all_off(how='all', pins=None):
     if how == 'all':
         gpio.cleanup()
     elif how == 'ld_pins':
-        for pin in ports_dac + ports_leds:
-            pin.off()
+        if pins:
+            for pin in ports_dac + ports_leds:
+                pin.off()
+        else:
+            print("Can't off. Pass a list of Pins to the function, please.")
     else:
         print("What do you want to set off?")
