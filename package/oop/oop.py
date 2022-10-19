@@ -25,9 +25,12 @@ class Pin_In(Pin):
 
 
 class Pin_Out(Pin):
-    def __init__(self, port, start_freq=1000, report=False):
+    def __init__(self, port, start_freq=1000, report=False, initial=False):
         super().__init__(port)
-        gpio.setup(port, gpio.OUT)
+        if not initial:
+            gpio.setup(port, gpio.OUT, initial=gpio.LOW)
+        else:
+            gpio.setup(port, gpio.OUT, initial=gpio.HIGH)
         self.is_on = False
         self.pwm = gpio.PWM(port, start_freq)
         self.report = report
@@ -79,7 +82,7 @@ def init_pins(ports, is_out=True, report=False):
 def binary_to_leds(diods, binary, lights=1, report=False):
     if 0 <= int(binary, 2) <= 255:
         if report:
-            print(f"To leds field {int(binary, 2) / 256 * 3.3}V")
+            print(f"To leds field {int(binary, 2) / 256 * 3.3} V")
 
         for i in range(len(binary)):
             if binary[i] == '0':
