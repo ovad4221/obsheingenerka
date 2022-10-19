@@ -8,12 +8,9 @@ troyka = Pin_Out(17, initial=True)
 
 try:
     while True:
-        for i in range(256):
-            binary_to_leds(dac, bin(i)[2:])
-            if comp.is_power():
-                print(f"ADC step = {i}; voltage DAC = {i / 256 * 3.3} V")
-                break
-            sleep(0.001)
+        i = int(input())
+        binary_to_leds(dac, bin(i)[2:].zfill(8))
+        print(f"voltage DAC = {i / 256 * 3.3} V")
 
 except Exception as error:
     print(str(error))
