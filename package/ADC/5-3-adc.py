@@ -1,6 +1,7 @@
 from package.oop.oop import *
 from package.constants import *
 from time import sleep
+from math import floor
 
 dac = init_pins(ports_dac)
 leds = init_pins(ports_leds)
@@ -28,7 +29,7 @@ try:
                     binary[i] = 1
 
         print(f"voltage DAC = {int(''.join([str(i) for i in binary]), 2) / 256 * 3.3} V")
-        st_one = '1' * int(int(''.join([str(i) for i in binary]), 2) / 256) * 100
+        st_one = '1' * floor(int(''.join([str(i) for i in binary]), 2) / 245 * 8)
         binary_to_leds(leds, st_one.zfill(8))
         sleep(0.5)
 
