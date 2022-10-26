@@ -27,7 +27,7 @@ try:
                     binary[i] = 1
 
         print(f"voltage DAC = {int(''.join([str(i) for i in binary]), 2) / 256 * 3.3} V")
-        sleep(2)
+        sleep(0.5)
 
 except Exception as error:
     print(str(error))
