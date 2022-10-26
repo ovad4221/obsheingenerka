@@ -43,11 +43,12 @@ try:
         while True:
             v_new = voltage()
             file.write(f"{time.time_ns() - time1},{round(v_new, 5)}\n")
-            if abs(v_new - v_old) < 0.01:
-                if troyka.is_on:
-                    troyka.off()
-                else:
-                    troyka.on()
+
+            if 0 < v_new - v_old < 0.01:
+                troyka.off()
+            elif 0 < v_old - v_new < 0.01:
+                troyka.on()
+
             v_old = v_new
             sleep(0.01)
 finally:
