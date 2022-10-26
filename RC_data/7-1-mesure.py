@@ -37,17 +37,16 @@ def voltage():
 try:
     with open('data_RC.csv', 'w') as file:
         troyka.on()
-        file.write('t,Volt')
+        file.write('t,Volt\n')
         v_old = 0.0
         time1 = time.time_ns()
         while True:
             v_new = voltage()
             file.write(f"{time.time_ns() - time1},{round(v_new, 5)}\n")
+            print(round(v_new, 5))
 
-            if 0 < v_new - v_old < 0.01:
+            if abs(v_new - v_old) < 0.001 and v_new > 3.25:
                 troyka.off()
-            elif 0 < v_old - v_new < 0.01:
-                troyka.on()
 
             v_old = v_new
             sleep(0.01)
